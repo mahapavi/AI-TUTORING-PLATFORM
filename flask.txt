@@ -1,0 +1,29 @@
+from flask import Flask, request, jsonify
+from flask_cors import CORS
+
+app = Flask(__name__)
+CORS(app)  # Enable cross-origin requests
+
+@app.route('/api/login', methods=['POST'])
+def login():
+    data = request.json
+    email = data.get('email')
+    password = data.get('password')
+
+    if email == "test@tutoring.com" and password == "password":
+        return jsonify({"success": True, "message": "Login successful!"})
+    return jsonify({"success": False, "message": "Invalid credentials."})
+
+@app.route('/api/recommendations', methods=['GET'])
+def recommendations():
+    return jsonify({
+        "subjects": ["Math", "Science", "History"],
+        "recommendations": [
+            "Focus on Calculus",
+            "Practice chemical equations",
+            "Review WW2 history notes"
+        ]
+    })
+
+if __name__ == "__main__":
+    app.run(debug=True)
